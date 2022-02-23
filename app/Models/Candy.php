@@ -13,18 +13,10 @@ class Candy extends Model
 
     static public function averageSugarWithCocoa(): float
     {
-        $candies = Candy::all();
-        $sum = 0;
-        $count = 0;
-        foreach ($candies as $candy ){
-            if($candy->cocoa_content > 0){
-                $sum += $candy->sugar_content;
-                $count++;
-            }
-        }
-        if ($count === 0){
+        $avg = Candy::where('cocoa_content','>',0)->average('sugar_content');
+        if ($avg === null){
             return NAN;
         }
-        return floatval($sum) / $count;
+        return $avg;
     }
 }
