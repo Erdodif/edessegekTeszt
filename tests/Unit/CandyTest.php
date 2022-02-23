@@ -105,4 +105,28 @@ class CandyTest extends TestCase
         $this->assertNan(Candy::nonChochoSugarFreeCount());
     }
 
+    public function test_lowers_sugar_non_free(){
+        $this->fill_data_multipart();
+        $this->assertEquals(Candy::lowersSugarCandyNonFree()->name,"Chocholate1");
+    }
+
+    public function test_lowest_sugar_non_free_only_free(){
+        Candy::factory()->createMany([
+            [  
+                'name' => 'ChocholateNon2',
+                'cocoa_content' => 0,
+                'sugar_content' => 0,
+            ],
+            [  
+                'name' => 'Chocholate4',
+                'cocoa_content' => 15.2,
+                'sugar_content' => 0,
+            ]
+        ]);
+        $this->assertNull(Candy::lowersSugarCandyNonFree());
+    }
+    
+    public function test_lowest_sugar_non_fre_empty(){
+        $this->assertNull(Candy::lowersSugarCandyNonFree());
+    }
 }
