@@ -19,4 +19,13 @@ class Candy extends Model
         }
         return $avg;
     }
+
+    static public function nonChochoSugarFreeCount(){
+        if (Candy::count() === 0){
+            return NAN;
+        }
+        $count = Candy::where('cocoa_content','=',0)->where('sugar_content','=',0)->count();
+        return $count;
+    }
+    
 }

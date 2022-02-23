@@ -14,19 +14,24 @@ class CandyTest extends TestCase
     public function fill_data_only_chocho(){
         Candy::factory()->createMany([
             [  
-                'name' => 'Chocholate',
+                'name' => 'Chocholate1',
                 'cocoa_content' => 5.5,
                 'sugar_content' => 2,
             ],
             [  
-                'name' => 'Chocholate',
+                'name' => 'Chocholate2',
                 'cocoa_content' => 5.1,
-                'sugar_content' => 3,
+                'sugar_content' => 4,
             ],
             [  
-                'name' => 'Chocholate',
+                'name' => 'Chocholate3',
                 'cocoa_content' => 15.2,
                 'sugar_content' => 10,
+            ],
+            [  
+                'name' => 'Chocholate4',
+                'cocoa_content' => 15.2,
+                'sugar_content' => 0,
             ],
         ]);
     }
@@ -34,17 +39,17 @@ class CandyTest extends TestCase
     public function fill_data_only_non_chocho(){
         Candy::factory()->createMany([
             [  
-                'name' => 'Chocholate',
+                'name' => 'ChocholateNon1',
                 'cocoa_content' => 0,
                 'sugar_content' => 13,
             ],
             [  
-                'name' => 'Chocholate',
+                'name' => 'ChocholateNon2',
                 'cocoa_content' => 0,
                 'sugar_content' => 0,
             ],
             [  
-                'name' => 'Chocholate',
+                'name' => 'ChocholateNon3',
                 'cocoa_content' => 0,
                 'sugar_content' => 2.3,
             ],
@@ -68,13 +73,13 @@ class CandyTest extends TestCase
 
     public function test_multi_chocho_candy(){
 
-        $this->fill_data_only_non_chocho();
-        $this->assertEquals(15,Candy::averageSugarWithCocoa());
+        $this->fill_data_only_chocho();
+        $this->assertEquals(4,Candy::averageSugarWithCocoa());
     }
     
     public function test_multi_chocho_candy_with_free(){
         $this->fill_data_multipart();
-        $this->assertEquals(15,Candy::averageSugarWithCocoa());
+        $this->assertEquals(4,Candy::averageSugarWithCocoa());
     }
 
     public function test_no_chocholate(){
@@ -82,18 +87,22 @@ class CandyTest extends TestCase
     }
 
     public function test_chocho_count_only_chocho(){
-
-    }
-
-    public function test_chocho_count_multipart(){
-        
+        $this->fill_data_only_chocho();
+        $this->assertEquals(0,Candy::nonChochoSugarFreeCount());
     }
 
     public function test_chocho_count_only_non_chocho(){
-        
+        $this->fill_data_only_non_chocho();
+        $this->assertEquals(1,Candy::nonChochoSugarFreeCount());
+    }
+
+    public function test_chocho_count_multipart(){
+        $this->fill_data_multipart();
+        $this->assertEquals(1,Candy::nonChochoSugarFreeCount());
     }
 
     public function test_chocho_count_only_empty(){
-        
+        $this->assertNan(Candy::nonChochoSugarFreeCount());
     }
+
 }
