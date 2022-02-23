@@ -10,7 +10,6 @@ use Tests\TestCase;
 class CandyTest extends TestCase
 {
     use DatabaseMigrations;
-    use DatabaseTransactions;
 
     public function test_one_chocho_candy(){
         $candy = new Candy([
